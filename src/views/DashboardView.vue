@@ -469,8 +469,8 @@ onMounted(() => {
 
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center space-x-3">
-                      <h3 class="text-base font-semibold text-gray-900">
-                        {{ serverData.server?.user_name }}
+                      <h3 class="text-base font-bold text-gray-900">
+                        {{ serverData.server?.ip_address }}:{{ serverData.server?.port }}
                       </h3>
                       <div
                         :class="[
@@ -488,13 +488,13 @@ onMounted(() => {
                       </div>
                     </div>
                     <div class="mt-1 flex items-center space-x-4 text-sm text-gray-500">
-                      <span>{{ serverData.server?.ip_address }}:{{ serverData.server?.port }}</span>
+                      <span>{{ serverData.server?.user_name }}</span>
                       <span
                         v-if="serverData.current_health?.checked_at"
                         class="flex items-center space-x-1"
                       >
                         <Clock class="w-3.5 h-3.5" />
-                        <span>{{ formatDate(serverData.current_health.checked_at) }}</span>
+                        <span>Last snapshot at {{ formatDate(serverData.current_health.checked_at) }}</span>
                       </span>
                       <span v-else class="text-gray-400">No health check yet</span>
                     </div>
