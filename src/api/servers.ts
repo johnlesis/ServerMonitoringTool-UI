@@ -1,5 +1,5 @@
 import apiClient from './client'
-import type { ServerRegisterRequest, Server, ContainerDataRequest } from '@/types/api'
+import type { ServerRegisterRequest, Server } from '@/types/api'
 
 export const serversApi = {
   register: async (serverData: ServerRegisterRequest): Promise<Server> => {
@@ -17,12 +17,6 @@ export const serversApi = {
     return data
   },
 
-  getServerContainers: async (serverId: number): Promise<any> => {
-    const requestData: ContainerDataRequest = { server_id: serverId }
-    const { data } = await apiClient.post('/containers/get-container-data', requestData)
-    return data
-  },
-
   collectAll: async (): Promise<any> => {
     const { data } = await apiClient.get('/servers/monitoring/collect-all')
     return data
@@ -31,5 +25,9 @@ export const serversApi = {
   getAllServersWithContainers: async (): Promise<any> => {
     const { data } = await apiClient.get('/servers/containers/all')
     return data
+  },
+
+  deleteServer: async (serverId: number): Promise<void> => {
+    await apiClient.delete(`/servers/delete/${serverId}`)
   },
 }
