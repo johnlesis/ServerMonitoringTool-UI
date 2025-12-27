@@ -104,15 +104,13 @@ const refreshAll = async () => {
 const fetchServerContainers = async (serverId: number) => {
   loadingServers.value.add(serverId)
   try {
-    const [healthResponse, containersResponse] = await Promise.all([
-      serversApi.getServerHealth(serverId),
-      serversApi.getServerContainers(serverId),
-    ])
+    const response = await serversApi.getServerWithContainers(serverId)
 
     const serverIndex = serversData.value.findIndex((s) => s.server?.id === serverId)
-    if (serverIndex !== -1 && serversData.value[serverIndex]) {
-      serversData.value[serverIndex].current_health = healthResponse?.data || null
-      serversData.value[serverIndex].containers = containersResponse?.data || []
+    if (serverIndex !== -1 && serversData.value[serverIndex] && response?.data) {
+      serversData.value[serverIndex].server = response.data.server || serversData.value[serverIndex].server
+      serversData.value[serverIndex].current_health = response.data.current_health || null
+      serversData.value[serverIndex].containers = response.data.containers || []
     }
   } catch (err) {
     // Silently fail - error handling can be added if needed

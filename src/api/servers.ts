@@ -1,5 +1,5 @@
 import apiClient from './client'
-import type { ServerRegisterRequest, Server, ServerHealth, ContainerDataRequest } from '@/types/api'
+import type { ServerRegisterRequest, Server, ContainerDataRequest } from '@/types/api'
 
 export const serversApi = {
   register: async (serverData: ServerRegisterRequest): Promise<Server> => {
@@ -7,8 +7,8 @@ export const serversApi = {
     return data.data
   },
 
-  getServerHealth: async (serverId: number): Promise<ServerHealth> => {
-    const { data } = await apiClient.get(`/servers/server-health/${serverId}`)
+  getServerWithContainers: async (serverId: number): Promise<any> => {
+    const { data } = await apiClient.get(`/servers/monitoting/${serverId}`)
     return data
   },
 
@@ -24,12 +24,12 @@ export const serversApi = {
   },
 
   collectAll: async (): Promise<any> => {
-    const { data } = await apiClient.post('/servers/monitoring/collect-all')
+    const { data } = await apiClient.get('/servers/monitoring/collect-all')
     return data
   },
 
   getAllServersWithContainers: async (): Promise<any> => {
-    const { data } = await apiClient.post('/servers/containers/all')
+    const { data } = await apiClient.get('/servers/containers/all')
     return data
   },
 }
